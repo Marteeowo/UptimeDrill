@@ -1,6 +1,6 @@
 # UptimeDrill verification
 
-Checked on 24 November 2026. UTC incident samples fall on 23 November. The table records the original container verification. A release-preparation recheck is recorded below. The Docker engine was initially stopped and was started for the original container run.
+Checked on 24 November 2026. UTC incident samples fall on 23 November. The table records the original container verification and the subsequent GitHub run. A release-preparation recheck is recorded below. The Docker engine was initially stopped and was started for the original container run.
 
 | Check | Result |
 | --- | --- |
@@ -27,8 +27,8 @@ Checked on 24 November 2026. UTC incident samples fall on 23 November. The table
 | Stopped service | Host monitor detected `DOWN CHANGE RemoteDisconnected`; one-shot probe returned failure |
 | Container cleanup | Test confirmed no remaining containers; independent checks found no project network or project-tagged image |
 | Unrelated resources | Before/after container, network and volume IDs matched exactly; 0 containers, 3 pre-existing networks, 0 volumes |
-| Ubuntu GitHub runner execution | Pending; Linux container service execution verified locally, test harness ran on Windows |
-| GitHub Actions run | Not executed; workflow configuration only |
+| Ubuntu GitHub runner execution | Passed on Ubuntu 26.04.1 with CPython 3.13.18 |
+| GitHub Actions run | [45284589940](https://github.com/Marteeowo/UptimeDrill/actions/runs/45284589940), success |
 | Publication review | Reviewed 13 source/configuration/documentation files; no hardcoded machine paths or credential patterns found |
 | Dependencies | App and tests use the Python standard library; no runtime dependency installation added |
 
@@ -46,8 +46,14 @@ After this recheck, containers and volumes were empty and only Docker's three bu
 
 The current source, tests, fixture and incident records were preserved during naming and documentation preparation. The workflow display name changed to UptimeDrill checks. `.gitattributes` specifies LF line endings for text files. The README retains local/container runbooks and the hands-on incident exercise.
 
+## GitHub Actions verification
+
+The first public push of commit `f3a69ece1005bedc772e0a9f0b5141f9f6fd0204` triggered [run 45284589940](https://github.com/Marteeowo/UptimeDrill/actions/runs/45284589940). Its verification job ran from `2026-11-23T22:58:07Z` to `22:58:36Z` and completed successfully on Ubuntu 26.04.1 with CPython 3.13.18.
+
+Syntax validation, local integration tests, Compose configuration validation, the Linux image build, container incident drill and final cleanup all passed. The local suite passed two tests in 0.506 seconds. The Docker-enabled suite passed two tests in 23.079 seconds. Logs recorded healthy -> unhealthy -> healthy, HTTP 503 during the dependency failure, recovery to HTTP 200, detection of the stopped service and `Cleanup verified for cred-test-45284589940-1`. No CI fixes were required.
+
 ## Verification limits
 
-The GitHub Actions workflow is configured and structurally reviewed. Its first GitHub run is pending. The verified environment was Docker Desktop's Linux engine with a Windows Python 3.11.11 test harness. The configured Ubuntu/Python 3.13 GitHub runner has not been tested.
+Verification covers the recorded local Windows/Docker Desktop runs and the GitHub Ubuntu run linked above. Results apply to those checks and revisions. Individual probe durations do not establish exact outage boundaries or performance guarantees.
 
 These checks were executed automatically with Codex. The image version tag can change upstream, and the lab uses a development HTTP server with the limitations documented in the README.

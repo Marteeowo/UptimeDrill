@@ -2,7 +2,7 @@
 
 A small Docker-based lab for monitoring service health, reproducing failures and testing recovery. It runs one Python HTTP service with a message-file dependency, a separate monitor and automated integration tests.
 
-The drill removes the message file, checks which endpoints fail, identifies the cause in the logs and restores the file. The Linux container run and scoped cleanup have been verified locally. GitHub Actions execution remains pending. See [validation](VALIDATION.md) for results or go to [Docker Compose execution](#docker-compose-execution) to run it.
+The drill removes the message file, checks which endpoints fail, identifies the cause in the logs and restores the file. The Linux container run and scoped cleanup have passed locally and on GitHub's Ubuntu runner. See [validation](VALIDATION.md) for results or go to [Docker Compose execution](#docker-compose-execution) to run it.
 
 ## Setup
 
@@ -190,7 +190,7 @@ Run commands from the repository root, where `.github/workflows/ci.yaml` is loca
 
 This lab uses Python's development HTTP server and an intentional file dependency. Readiness is specific to that dependency. It has no authentication, TLS, database, persistent data, external alert delivery or production hardening. Probe durations are individual samples, and polling cannot establish exact outage boundaries. Docker health status reports failure but does not itself restart this Compose service.
 
-The Python image uses a version tag, so future builds can receive upstream changes. Action commits are pinned. The workflow has not run on GitHub. Image and action references are available in the [official Python image](https://hub.docker.com/_/python/tags?name=3.13-slim) and [GitHub Python workflow documentation](https://docs.github.com/en/actions/tutorials/build-and-test-code/python).
+The Python image uses a version tag, so future builds can receive upstream changes. Action commits are pinned. The successful Ubuntu run is linked in [validation](VALIDATION.md#github-actions-verification). Image and action references are available in the [official Python image](https://hub.docker.com/_/python/tags?name=3.13-slim) and [GitHub Python workflow documentation](https://docs.github.com/en/actions/tutorials/build-and-test-code/python).
 
 AI assistance was used during development. The incident records identify how the checks were executed.
 

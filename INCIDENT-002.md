@@ -57,9 +57,11 @@ The automated Python drill exercised the same app and monitor on Windows with a 
 
 The app log identified `FileNotFoundError`. The test asserted healthy application, liveness and readiness responses; failing application/readiness with healthy liveness; restored application/readiness; and an unknown route returning 404. Restoring the fixture recovered the running process. Stopping that process then produced the final DOWN transition. These are individual probe measurements using a 0.1-second test interval. They do not establish exact outage duration or container performance.
 
-## Remaining verification gap
+## GitHub verification
 
-The GitHub Actions workflow has not executed. The verified environment was Docker Desktop's Linux engine with a Windows Python 3.11.11 test harness. Execution on the configured Ubuntu/Python 3.13 GitHub runner remains unverified. That first CI run can occur after an authorized repository upload.
+After publication, [GitHub Actions run 45284589940](https://github.com/Marteeowo/UptimeDrill/actions/runs/45284589940) verified the same drill on Ubuntu 26.04.1 with CPython 3.13.18. Both the local and Docker-enabled suites passed, along with syntax/configuration validation and final container cleanup. The Docker-enabled suite completed two tests in 23.079 seconds. The original local evidence above remains the incident baseline.
+
+The Ubuntu container monitor recorded `DOWN CHANGE HTTP 503` at `2026-11-23T22:58:22.746+00:00`, recovery at `22:58:26.808+00:00`, and `DOWN CHANGE ConnectionRefusedError` after the deliberate stop at `22:58:33.914+00:00`. Docker health changed healthy -> unhealthy -> healthy, and the test reported `Cleanup verified for cred-test-45284589940-1`.
 
 ## Comparison with Incident 001
 
